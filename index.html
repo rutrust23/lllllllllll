@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Виноделие — Профессия</title>
+    <style>
+        /* ================= RESET & BASE ================= */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --bg-dark: #0a0a0a;
+            --bg-light: #f7f6f2;
+            --text-dark: #1a1a1a;
+            --text-light: #f7f6f2;
+            --gold: #c3ab80;
+            --font-serif: 'Playfair Display', 'Georgia', serif;
+            --font-sans: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        }
+        
+        html { scroll-behavior: smooth; }
+        
+        body {
+            font-family: var(--font-sans);
+            color: var(--text-dark);
+            line-height: 1.6;
+            background-color: var(--bg-light);
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3 { font-family: var(--font-serif); font-weight: 400; }
+        
+        .container { max-width: 1400px; margin: 0 auto; padding: 0 20px; }
+
+        /* ================= HERO SECTION ================= */
+        .hero {
+            position: relative;
+            height: 100vh;
+            background-image: url('https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?q=80&w=1920&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            color: var(--text-light);
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.1) 50%, rgba(0,0,0,0.6) 100%);
+            z-index: 1;
+        }
+
+        .top-bar {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            justify-content: space-between;
+            padding: 30px 50px;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .top-bar a { color: var(--text-light); text-decoration: none; margin-left: 20px; opacity: 0.8; transition: opacity 0.3s; }
+        .top-bar a:hover { opacity: 1; }
+
+        .hero-center {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .hero-title {
+            font-size: 12rem;
+            letter-spacing: -2px;
+            color: var(--gold);
+            text-shadow: 0 10px 40px rgba(0,0,0,0.4);
+            font-style: italic;
+            line-height: 1;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .hero-bottom {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            padding-bottom: 40px;
+            font-size: 0.7rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+
+        /* ================= QUOTE SECTION ================= */
+        .quote-section {
+            background-color: var(--bg-light);
+            padding: 120px 20px;
+            text-align: center;
+        }
+
+        .quote-text {
+            font-family: var(--font-serif);
+            font-size: 1.8rem;
+            font-style: italic;
+            max-width: 900px;
+            margin: 0 auto 20px;
+            color: var(--text-dark);
+            line-height: 1.4;
+        }
+
+        .quote-author {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #888;
+        }
+
+        /* ================= EXPLORE SECTION (Бутылки) ================= */
+        .explore-section {
+            background-color: var(--bg-light);
+            padding: 20px 0 120px;
+            text-align: center;
+        }
+
+        .section-subtitle {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: #888;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .section-title {
+            font-size: 2.8rem;
+            color: var(--text-dark);
+            margin-bottom: 80px;
+            font-style: italic;
+        }
+
+        .bottle-grid {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+        }
+
+        .bottle-item {
+            width: 160px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .bottle-img-wrapper {
+            height: 380px;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+
+        .bottle-img {
+            height: 100%;
+            width: auto;
+            object-fit: contain;
+            transition: transform 0.5s ease;
+            filter: drop-shadow(0 20px 20px rgba(0,0,0,0.15));
+        }
+
+        .bottle-item:hover .bottle-img {
+            transform: translateY(-15px);
+        }
+
+        .bottle-title {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--text-dark);
+        }
+
+        .bottle-divider {
+            width: 40px;
+            height: 1px;
+            background-color: #ccc;
+            margin: 0 auto;
+        }
+
+        /* ================= EXPERIENCE SECTION (Три карточки) ================= */
+        .experience-section {
+            position: relative;
+            background-image: url('https://images.unsplash.com/photo-1546481516-f9c64a49e682?q=80&w=1920&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+            padding: 120px 0;
+            color: var(--text-light);
+        }
+
+        .experience-section::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 1;
+        }
+
+        .experience-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            margin-bottom: 80px;
+        }
+
+        .experience-content .section-title {
+            color: var(--text-light);
+            margin-bottom: 0;
+            font-size: 3rem;
+            line-height: 1.1;
+        }
+
+        .exp-grid {
+            position: relative;
+            z-index: 2;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .exp-card {
+            text-align: center;
+            background: rgba(0,0,0,0.4);
+            padding: 30px 20px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .exp-img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            margin-bottom: 25px;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .exp-title {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+            color: var(--gold);
+        }
+
+        .exp-text {
+            font-size: 0.85rem;
+            opacity: 0.9;
+            margin-bottom: 20px;
+            line-height: 1.5;
+            font-family: var(--font-serif);
+            font-style: italic;
+            min-height: 80px;
+        }
+
+        .exp-link {
+            color: var(--text-light);
+            text-decoration: none;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            border-bottom: 1px solid var(--gold);
+            padding-bottom: 3px;
+            transition: color 0.3s;
+        }
+
+        .exp-link:hover {
+            color: var(--gold);
+        }
+        
+        .exp-details {
+            margin-top: 15px;
+            font-size: 0.7rem;
+            color: rgba(255,255,255,0.6);
+            line-height: 1.4;
+        }
+
+        /* ================= UNIVERSITIES SECTION ================= */
+        .uni-section {
+            background-color: var(--bg-light);
+            padding: 100px 0;
+        }
+
+        .uni-section .section-title {
+            color: var(--text-dark);
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .uni-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .uni-card {
+            background: #fff;
+            padding: 30px;
+            border: 1px solid #e0e0e0;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .uni-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.08);
+        }
+
+        .uni-name {
+            font-family: var(--font-serif);
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            color: var(--text-dark);
+        }
+
+        .uni-city {
+            font-size: 0.8rem;
+            color: #888;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .uni-exams {
+            font-size: 0.85rem;
+            color: #555;
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+
+        .uni-exams strong {
+            color: var(--text-dark);
+        }
+
+        .btn-uni {
+            display: inline-block;
+            padding: 10px 20px;
+            background: var(--text-dark);
+            color: #fff;
+            text-decoration: none;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: background 0.3s;
+        }
+
+        .btn-uni:hover {
+            background: var(--gold);
+            color: var(--text-dark);
+        }
+
+        /* ================= JOIN SECTION (Футер с бокалами) ================= */
+        .join-section {
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            padding: 120px 0;
+        }
+
+        .join-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 80px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .join-text {
+            flex: 1;
+            max-width: 350px;
+        }
+
+        .join-text h3 {
+            font-size: 2.2rem;
+            margin-bottom: 20px;
+            color: var(--text-light);
+            line-height: 1.2;
+            font-style: italic;
+        }
+
+        .join-text p {
+            font-size: 0.8rem;
+            margin-bottom: 30px;
+            opacity: 0.7;
+            line-height: 1.6;
+            font-family: var(--font-serif);
+        }
+
+        .join-image {
+            flex: 1;
+            height: 350px;
+        }
+
+        .join-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+        }
+
+        .btn-outline {
+            display: inline-block;
+            padding: 12px 25px;
+            border: 1px solid rgba(255,255,255,0.3);
+            color: var(--text-light);
+            text-decoration: none;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: all 0.3s;
+        }
+
+        .btn-outline:hover {
+            background: var(--text-light);
+            color: var(--bg-dark);
+        }
+
+        /* ================= AUTHOR FOOTER ================= */
+        .site-footer {
+            background-color: #000;
+            color: #666;
+            text-align: center;
+            padding: 30px;
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            border-top: 1px solid #222;
+        }
+        
+        .site-footer strong { 
+            color: #ccc; 
+            font-weight: 600;
+        }
+        
+        .footer-project {
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+        }
+        
+        .footer-school {
+            font-size: 0.7rem;
+            opacity: 0.7;
+        }
+
+        /* ================= ANIMATIONS ================= */
+        .reveal {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 1.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .fade-in {
+            animation: fadeIn 1.5s ease-out forwards;
+            opacity: 0;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ================= RESPONSIVE ================= */
+        @media (max-width: 1024px) {
+            .hero-title { font-size: 8rem; }
+            .bottle-grid { gap: 20px; }
+            .bottle-item { width: 120px; }
+            .bottle-img-wrapper { height: 280px; }
+            .exp-grid { grid-template-columns: 1fr; max-width: 500px; }
+            .join-container { flex-direction: column; gap: 40px; }
+            .join-text { max-width: 100%; text-align: center; }
+            .join-image { width: 100%; }
+        }
+
+        @media (max-width: 600px) {
+            .hero-title { font-size: 4rem; }
+            .top-bar { flex-direction: column; gap: 15px; text-align: center; padding: 20px; }
+            .top-bar a { margin: 0 10px; }
+            .quote-text { font-size: 1.2rem; }
+            .bottle-grid { flex-direction: column; align-items: center; }
+            .bottle-img-wrapper { height: 300px; }
+            .bottle-item { width: 200px; margin-bottom: 40px; }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <!-- HERO -->
+    <header class="hero">
+        <div class="top-bar fade-in">
+            <div>ВИНОДЕЛИЕ</div>
+            <div>
+                <a href="#about">О ПРОФЕССИИ</a>
+                <a href="#education">ОБУЧЕНИЕ</a>
+                <a href="#universities">ВУЗЫ</a>
+            </div>
+        </div>
+        <div class="hero-center">
+            <h1 class="hero-title fade-in" style="animation-delay: 0.2s;">Виноделие</h1>
+        </div>
+        <div class="hero-bottom fade-in" style="animation-delay: 0.4s;">
+            Искусство и наука
+        </div>
+    </header>
+
+    <!-- QUOTE -->
+    <section class="quote-section reveal">
+        <p class="quote-text">«Виноделие — это не просто производство напитка, это создание истории, которая живет в бутылке десятилетиями.»</p>
+        <p class="quote-author">— Профессиональная мудрость</p>
+    </section>
+
+    <!-- EXPLORE SECTION (Бутылки) -->
+    <section id="about" class="explore-section">
+        <div class="container">
+            <span class="section-subtitle reveal">ОСОБЕННОСТИ ПРОФЕССИИ</span>
+            <h2 class="section-title reveal">Искусство и наука</h2>
+            <div class="bottle-grid">
+                
+                <div class="bottle-item reveal">
+                    <div class="bottle-img-wrapper">
+                        <img src="https://images.unsplash.com/photo-1585553616435-2dc0a54e271d?q=80&w=400&auto=format&fit=crop" alt="Выращивание" class="bottle-img">
+                    </div>
+                    <div class="bottle-title">Выращивание</div>
+                    <div class="bottle-divider"></div>
+                </div>
+
+                <div class="bottle-item reveal" style="transition-delay: 0.1s;">
+                    <div class="bottle-img-wrapper">
+                        <img src="https://i.pinimg.com/736x/56/e7/e4/56e7e435c03a57bc47f03002edb399f3.jpg" alt="Сбор урожая" class="bottle-img">
+                    </div>
+                    <div class="bottle-title">Сбор урожая</div>
+                    <div class="bottle-divider"></div>
+                </div>
+
+                <div class="bottle-item reveal" style="transition-delay: 0.2s;">
+                    <div class="bottle-img-wrapper">
+                        <img src="https://images.unsplash.com/photo-1569529465841-dfecdab7503b?q=80&w=400&auto=format&fit=crop" alt="Брожение" class="bottle-img">
+                    </div>
+                    <div class="bottle-title">Брожение</div>
+                    <div class="bottle-divider"></div>
+                </div>
+
+                <div class="bottle-item reveal" style="transition-delay: 0.3s;">
+                    <div class="bottle-img-wrapper">
+                        <img src="https://images.unsplash.com/photo-1584916201218-f4242ceb4809?q=80&w=400&auto=format&fit=crop" alt="Выдержка" class="bottle-img">
+                    </div>
+                    <div class="bottle-title">Выдержка</div>
+                    <div class="bottle-divider"></div>
+                </div>
+
+                <div class="bottle-item reveal" style="transition-delay: 0.4s;">
+                    <div class="bottle-img-wrapper">
+                        <img src="https://i.pinimg.com/736x/63/68/bc/6368bcf752eaa08d6f335590696f2bb9.jpg" alt="Дегустация" class="bottle-img">
+                    </div>
+                    <div class="bottle-title">Дегустация</div>
+                    <div class="bottle-divider"></div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- EXPERIENCE SECTION (Обучение и работа) -->
+    <section id="education" class="experience-section">
+        <div class="experience-content reveal">
+            <span class="section-subtitle">ОБУЧЕНИЕ И РАБОТА</span>
+            <h2 class="section-title">Путь в профессию</h2>
+        </div>
+        <div class="exp-grid">
+            
+            <div class="exp-card reveal">
+                <img src="https://images.unsplash.com/photo-1541339907198-e08756dedf3f?q=80&w=600&auto=format&fit=crop" alt="Учеба" class="exp-img">
+                <h3 class="exp-title">ГДЕ УЧИТЬСЯ</h3>
+                <p class="exp-text">Ведущие вузы: РОСБИОТЕХ, МГУТУ, ЮРГПУ. Направления: «Технология виноделия», «Агрономия», «Биотехнология».</p>
+                <a href="#universities" class="exp-link">ВУЗЫ И ЕГЭ</a>
+            </div>
+
+            <div class="exp-card reveal" style="transition-delay: 0.2s;">
+                <img src="https://images.unsplash.com/photo-1584916201218-f4242ceb4809?q=80&w=600&auto=format&fit=crop" alt="Карьера" class="exp-img">
+                <h3 class="exp-title">КАРЬЕРА</h3>
+                <p class="exp-text">Работа на винодельнях (Крым, Краснодарский край, Дагестан), в научных лабораториях, частных хозяйствах и международных компаниях.</p>
+                <a href="#" class="exp-link">ПОДРОБНЕЕ</a>
+                <div class="exp-details">От помощника до главного винодела</div>
+            </div>
+
+            <div class="exp-card reveal" style="transition-delay: 0.4s;">
+                <!-- Вставлена указанная ссылка для дохода -->
+                <img src="https://i.pinimg.com/1200x/1b/6e/33/1b6e336c960a40fefe76548379a78f69.jpg" alt="Доход" class="exp-img">
+                <h3 class="exp-title">ДОХОД</h3>
+                <p class="exp-text">От 50 000 ₽ у помощников до 200 000+ ₽ у главных виноделов. Частная практика и консалтинг оплачиваются выше.</p>
+                <a href="#" class="exp-link">ПОДРОБНЕЕ</a>
+                <div class="exp-details">Зависит от региона и опыта</div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- UNIVERSITIES SECTION -->
+    <section id="universities" class="uni-section">
+        <div class="container">
+            <h2 class="section-title reveal">Вузы и поступление</h2>
+            <div class="uni-grid">
+                
+                <div class="uni-card reveal">
+                    <div class="uni-name">Российский биотехнологический университет (РОСБИОТЕХ)</div>
+                    <div class="uni-city">Москва</div>
+                    <div class="uni-exams">
+                        <strong>Направление:</strong> 19.03.02 Продукты питания из растительного сырья (профиль: Технология виноделия и ликероводочных изделий) <br><br>
+                        <strong>ЕГЭ:</strong> Русский язык, Математика, Химия / Биология / Физика (по выбору) 
+                    </div>
+                    <a href="https://mgutm.ru/" target="_blank" class="btn-uni">Сайт вуза</a>
+                </div>
+
+                <div class="uni-card reveal" style="transition-delay: 0.1s;">
+                    <div class="uni-name">МГУТУ им. К.Г. Разумовского (ПКУ)</div>
+                    <div class="uni-city">Москва</div>
+                    <div class="uni-exams">
+                        <strong>Направление:</strong> Технология виноделия, бродильных производств и химии им. Г.Г. Агабальянца <br><br>
+                        <strong>ЕГЭ:</strong> Русский язык, Математика, Химия / Биология / Физика (уточняется в приемной комиссии)
+                    </div>
+                    <a href="https://mgutm.ru/" target="_blank" class="btn-uni">Сайт вуза</a>
+                </div>
+
+                <div class="uni-card reveal" style="transition-delay: 0.2s;">
+                    <div class="uni-name">ЮРГПУ (НПИ) им. М.И. Платова</div>
+                    <div class="uni-city">Новочеркасск</div>
+                    <div class="uni-exams">
+                        <strong>Направление:</strong> 19.03.02 Продукты питания из растительного сырья (профиль: Технология виноделия и ресторанного дела) <br><br>
+                        <strong>ЕГЭ:</strong> Русский язык, Математика, Химия / Биология / Физика (уточняется)
+                    </div>
+                    <a href="https://www.npi-tu.ru/" target="_blank" class="btn-uni">Сайт вуза</a>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- JOIN SECTION (Футер с бокалами и фактами) -->
+    <section id="facts" class="join-section">
+        <div class="join-container">
+            <div class="join-text reveal">
+                <h3>Интересные факты и качества</h3>
+                <p><strong>Факт:</strong> Виноградная лоза может жить более 100 лет, а вкус вина зависит от микроклимата каждого конкретного склона (терруара).</p>
+                <p><strong>Качества:</strong> Терпение, аналитический склад ума, отличное обоняние и вкус, физическая выносливость, любовь к природе и химии.</p>
+                <a href="#" class="btn-outline">УЗНАТЬ БОЛЬШЕ</a>
+            </div>
+            <div class="join-image reveal" style="transition-delay: 0.2s;">
+                <img src="https://images.unsplash.com/photo-1474722883778-792e7990302f?q=80&w=800&auto=format&fit=crop" alt="Бокал вина">
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="site-footer">
+        <p class="footer-project">Сайт подготовил ученик 11 класса <strong>Федосенков Семён</strong></p>
+        <p class="footer-school">Для урока по биологии • 2026</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const revealElements = document.querySelectorAll('.reveal');
+
+            const revealOnScroll = () => {
+                const windowHeight = window.innerHeight;
+                const elementVisible = 100;
+
+                revealElements.forEach((reveal) => {
+                    const elementTop = reveal.getBoundingClientRect().top;
+                    if (elementTop < windowHeight - elementVisible) {
+                        reveal.classList.add('active');
+                    }
+                });
+            };
+
+            window.addEventListener('scroll', revealOnScroll);
+            setTimeout(revealOnScroll, 100);
+
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
